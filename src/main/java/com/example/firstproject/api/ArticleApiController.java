@@ -1,11 +1,10 @@
 package com.example.firstproject.api;
 
+import com.example.firstproject.dto.ArticleForm;
 import com.example.firstproject.entity.Article;
 import com.example.firstproject.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,7 +22,11 @@ public class ArticleApiController {
         return articleRepository.findById(id).orElse(null); //해당 엔티티 빈환 or ㅜㅕㅣㅣ
     }
     //POST
-
+    @PostMapping("/api/articles") //URL 요청 접수
+    public Article create(@RequestBody ArticleForm dto) { //create() 메서드 정의
+        Article article=dto.toEntity(); //dto 엔티티 변환
+        return articleRepository.save(article); //DB에 저장 후 반환
+    }
     //PATCH
     //DELETE
 }
