@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 @Slf4j
 @RestController
@@ -52,4 +53,12 @@ public class ArticleApiController {
                 ResponseEntity.status(HttpStatus.OK).body(deleted):
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+    @PostMapping("/api/transaction-test") //여러 게시글 생성 요청 접수
+    public ResponseEntity<List<Article>> transactionTest
+            (@RequestBody List<ArticleForm> dtos) {
+        List<Article> createdList=articleService.createArticles(dtos);
+        return (createdList!=null)?
+                ResponseEntity.status(HttpStatus.OK).body(createdList):
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    } //transactionTest()메서드 정의
 }
