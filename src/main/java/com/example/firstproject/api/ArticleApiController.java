@@ -16,21 +16,26 @@ import java.util.List;
 public class ArticleApiController {
     @Autowired
     private ArticleService articleService; //서비스 객체 주입
+    @Autowired
+    private ArticleRepository articleRepository;
+
     //GET
     @GetMapping("api/articles") //URL 요청 접수
     public List<Article> index() { //index() 메서드 정의
         return articleService.index();
     }
-//    @GetMapping("api/articles/{id}") //단일 아티클 반환
-//    public Article show(@PathVariable Long id) {  //반환형 Article
-//        return articleRepository.findById(id).orElse(null); //해당 엔티티 빈환 or ㅜㅕㅣㅣ
-//    }
-//    //POST
-//    @PostMapping("/api/articles") //URL 요청 접수
-//    public Article create(@RequestBody ArticleForm dto) { //create() 메서드 정의
-//        Article article=dto.toEntity(); //dto 엔티티 변환
-//        return articleRepository.save(article); //DB에 저장 후 반환
-//    }
+    @GetMapping("api/articles/{id}") //단일 아티클 반환
+    public Article show(@PathVariable Long id) {
+        return articleService.show(id);
+    }
+    //POST
+    @PostMapping("/api/articles") //URL 요청 접수
+    public ResponseEntity<Article> create(@RequestBody ArticleForm dto) { //create() 메서드 정의
+        Article created=articleService.create(dto); //서비스로 게시글 작성
+        return (created !=null)? //생성하면 정상, 실패하면 오류 응답
+                ResponseEntity.status(HttpStatus.OK).body(created):
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
 //    //PATCH
 //    @PatchMapping("/api/articles/{id}") //URL 요청 접수
 //    public ResponseEntity<Article> update(@PathVariable Long id, @RequestBody ArticleForm dto){ //update() 메서드 정의
