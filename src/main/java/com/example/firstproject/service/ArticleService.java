@@ -47,5 +47,17 @@ public class ArticleService {
         Article updated=articleRepository.save(target); //article 엔티티 DB에 저장
         return updated; //수정, 응답은 컨트롤러가 하므로 여기서는 수정 데이터만 반환
     }
+
+    public Article delete(Long id) {
+        // 1. 대상 찾기
+        Article target=articleRepository.findById(id).orElse(null);
+        // 2. 잘못된 요청 처리하기
+        if(target==null){
+            return null;
+        }
+        // 3. 대상 삭제하기
+        articleRepository.delete(target);
+        return target;
+    }
 }
 
