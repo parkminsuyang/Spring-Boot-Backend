@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*; //앞으로 사용할 수 있는 패키지 임포트
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest //해당 클래스를 스프링 부트와 연동해 테스트
 class ArticleServiceTest {
@@ -51,6 +52,7 @@ class ArticleServiceTest {
     }
 
     @Test
+    @Transactional
     void create_성공_title과_content만_있는_dto_입력() {
         //1. 예상 데이터
         String title="라라라라";
@@ -63,6 +65,7 @@ class ArticleServiceTest {
         assertEquals(expected.toString(), article.toString());
     }
     @Test
+    @Transactional
     void create_실패_id가_포함된_dto_입력() {
         //1. 예상 데이터
         Long id=4L;
